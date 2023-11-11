@@ -10,11 +10,20 @@ public class Board {
     }
 
     public Boolean isInFavorOfX() {
+        char ch = 'X';
+        return checkRow(ch) || checkColumn(ch) || checkDiagonal1(ch) || checkDiagonal2(ch);
+    }
+
+    public Boolean isInFavorOfO() {
+        char ch = 'O';
+        return checkRow(ch) || checkColumn(ch) || checkDiagonal1(ch) || checkDiagonal2(ch);
+    }
+
+    public Boolean checkRow(char ch){
         int i, j;
-        // Test winning row
         for (i = 0; i < matrix.length; i++){
             for (j = 0; j < matrix.length; j++){
-                if (matrix[i][j] != 'X'){
+                if (matrix[i][j] != ch){
                     break;
                 }
             }
@@ -22,10 +31,14 @@ public class Board {
                 return true;
             }
         }
-        // Test winning column
+        return false;
+    }
+
+    public Boolean checkColumn(char ch){
+        int i, j;
         for (i = 0; i < matrix.length; i++){
             for (j = 0; j < matrix.length; j++){
-                if (matrix[j][i] != 'X'){
+                if (matrix[j][i] != ch){
                     break;
                 }
             }
@@ -33,18 +46,13 @@ public class Board {
                 return true;
             }
         }
+        return false;
+    }
+
+    public Boolean checkDiagonal1(char ch){
         // Test winning [0][0] -> [max][max] diagonal
-        for (i = 0; i < matrix.length; i++){
-            if (matrix[i][i] != 'X'){
-                break;
-            }
-            if (i == matrix.length - 1){
-                return true;
-            }
-        }
-        // Test winning [max][0] -> [0][max] diagonal
-        for (i = 0; i < matrix.length; i++){
-            if (matrix[i][matrix.length - i - 1] != 'X'){
+        for (int i = 0; i < matrix.length; i++){
+            if (matrix[i][i] != ch){
                 break;
             }
             if (i == matrix.length - 1){
@@ -54,42 +62,10 @@ public class Board {
         return false;
     }
 
-    public Boolean isInFavorOfO() {
-        int i, j;
-        // Test winning row
-        for (i = 0; i < matrix.length; i++){
-            for (j = 0; j < matrix.length; j++){
-                if (matrix[i][j] != 'O'){
-                    break;
-                }
-            }
-            if (j == matrix.length){
-                return true;
-            }
-        }
-        // Test winning column
-        for (i = 0; i < matrix.length; i++){
-            for (j = 0; j < matrix.length; j++){
-                if (matrix[j][i] != 'O'){
-                    break;
-                }
-            }
-            if (j == matrix.length){
-                return true;
-            }
-        }
-        // Test winning [0][0] -> [max][max] diagonal
-        for (i = 0; i < matrix.length; i++){
-            if (matrix[i][i] != 'O'){
-                break;
-            }
-            if (i == matrix.length - 1){
-                return true;
-            }
-        }
+    public Boolean checkDiagonal2(char ch){
         // Test winning [max][0] -> [0][max] diagonal
-        for (i = 0; i < matrix.length; i++){
-            if (matrix[i][matrix.length - i - 1] != 'O'){
+        for (int i = 0; i < matrix.length; i++){
+            if (matrix[i][matrix.length - i - 1] != ch){
                 break;
             }
             if (i == matrix.length - 1){
@@ -104,11 +80,11 @@ public class Board {
     }
 
     public String getWinner() {
-        if (isInFavorOfO()){
-            return "O";
-        }
-        else if (isInFavorOfX()){
+        if (isInFavorOfX()){
             return "X";
+        }
+        else if (isInFavorOfO()){
+            return "O";
         }
         else {
             return "";
